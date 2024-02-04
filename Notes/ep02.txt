@@ -1,0 +1,19 @@
+igniting the react app
+
+we use package.json file which holds all the npm.
+1st step:-
+terminal>npm init> enter> write description> version> enter > enter > enter.
+
+this creates the package.json file.
+
+where we can write the dev-dependency and other dependency as well.
+production ready code optimizer tool - parcel, webpack and etc...
+we are using parcel because this is awesome and it has some extra feature than webpack.
+
+in package.json file tiddle (~) and carret (^) comes along with the dependency version.
+they both have their own significance.
+
+^ allows version of dependency to auto update itself for minor upgrades.
+
+package-lock.json => package-lock.json is automatically generated for any operations where npm modifies either the node_modules tree, or package.json. It describes the exact tree that was generated, such that subsequent installs are able to generate identical trees, regardless of intermediate dependency updates.
+put node_modules in .gitignore files so that it can not go to git while pushing code.

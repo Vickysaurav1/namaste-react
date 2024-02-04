@@ -1,0 +1,19 @@
+we can use recat via CDN to create react app in our project.
+React CDN can be included by going to react offical website and copy the cdn link and paste it in the html file.
+once CDN link is copied, the strcture can be written as:
+
+index.html
+<html>
+<body>
+<div id="root"></div>
+<!-- Add this script tag -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</body>
+</html>
+
+App.js
+
+const head = React.createElement("h1", {}, "This is react using CDN");
+const root = ReactDom.cretaeRoot(document.getElementById("root"));
+root.render(head);
