@@ -45,3 +45,28 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.filter{
+  display: flex;
+}
+
+.filter-btn {
+  margin: 10px;
+  cursor: pointer;
+}
+
+.shimmer-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.shimmer-cards {
+  height: 400px;
+  width: 100px;
+  margin: 10px;
+  background: #837c7c
+}
+.login{
+  cursor: pointer;
+  padding: 0 20px;
+  
+}
