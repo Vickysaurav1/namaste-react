@@ -1,43 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import ResturantCard from "./ResturantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
-// import restaurants from "../utils/mockData";
+import { useBody } from "../utils/useBody";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
-  // local state variable - super powerful variable.
-  const [listOfResturnt, setListOfResturnt] = useState([]);
-  const [filteredResturent, setFilteredResturent] = useState([]);
+  //using custom hook for code modularity  and reusability and API call is happening in the useBody only.
+  const { listOfResturnt } = useBody();
+  const [filteredRes, setFilteredRes] = useState([]);
   const [searchText, setSearchText] = useState("");
-
+  const onlineStatus = useOnlineStatus();
   useEffect(() => {
-    fetchData();
-  }, []);
+    setFilteredRes(listOfResturnt);
+  }, [listOfResturnt]);
 
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.58713555928455&lng=73.69835094520596&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+  if (onlineStatus === false)
+    return (
+      <h1>Looks Like you're offline!!Please check your internet connection</h1>
+    );
 
-    );
-    const json = await data.json();
-    console.log(json);
-    setListOfResturnt(
-      json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants
-    );
-    setFilteredResturent(
-      json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants
-    );
-  };
-
-  return listOfResturnt.length === 0 ? (
+  return listOfResturnt?.length === 0 ? (
     <Shimmer />
   ) : (
     <div className="body">
-      <div className="filter">
-        <div className="search">
+      <div className="filter flex items-center">
+        <div className="search p-4 m-4">
           <input
             type="text"
-            className="search-box"
+            className="border border-dotted border-black p-1 m-1 rounded-lg"
             placeholder="search..."
             value={searchText}
             onChange={(e) => {
@@ -45,34 +36,37 @@ const Body = () => {
             }}
           />
           <button
+            className="px-4 py-2 bg-green-100 rounded"
             onClick={() => {
               //filter the resturent list and update the UI
               console.log(searchText);
               const filteredAvgRes = listOfResturnt.filter((res) =>
                 res?.info?.name.toLowerCase().includes(searchText.toLowerCase())
               );
-              setFilteredResturent(filteredAvgRes);
+              setFilteredRes(filteredAvgRes);
             }}
           >
             search
           </button>
         </div>
-        <button
-          //onClick of the button return resturnat having average rating greater than 4
-          className="filter-btn"
-          onClick={() => {
-            const filteredList = listOfResturnt.filter(
-              (res) => res?.info?.avgRating > 4
-            );
-            setFilteredResturent(filteredList);
-          }}
-        >
-          Top Rated Restaurants
-        </button>
+        <div className="p-4 m-4">
+          <button
+            //onClick of the button return resturnat having average rating greater than 4
+            className="px-4 py-2 bg-green-50 rounded-lg"
+            onClick={() => {
+              const filteredList = listOfResturnt.filter(
+                (res) => res?.info?.avgRating > 4
+              );
+              setFilteredRes(filteredList);
+            }}
+          >
+            Top Rated Restaurants
+          </button>
+        </div>
       </div>
-      <div className="res-container">
-        {filteredResturent.length > 0 &&
-          filteredResturent.map((resList) => {
+      <div className="flex flex-wrap">
+        {filteredRes?.length > 0 &&
+          filteredRes?.map((resList) => {
             return (
               <Link
                 key={resList?.info?.id}
