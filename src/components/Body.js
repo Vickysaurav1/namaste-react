@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react";
-import ResturantCard from "./ResturantCard";
+import React, { useState, useEffect, useMemo, useContext } from "react";
+import ResturantCard, { withPromotedLabel } from "./ResturantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import { useBody } from "../utils/useBody";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   //using custom hook for code modularity  and reusability and API call is happening in the useBody only.
@@ -11,6 +12,13 @@ const Body = () => {
   const [filteredRes, setFilteredRes] = useState([]);
   const [searchText, setSearchText] = useState("");
   const onlineStatus = useOnlineStatus();
+
+  const ResturantCardPromoted = withPromotedLabel(ResturantCard);
+
+  console.log("listofres>>", listOfResturnt);
+
+  const { userName, setUserName } = useContext(UserContext);
+
   useEffect(() => {
     setFilteredRes(listOfResturnt);
   }, [listOfResturnt]);
@@ -49,6 +57,11 @@ const Body = () => {
             search
           </button>
         </div>
+        <input
+          className="border border-black p-2"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
         <div className="p-4 m-4">
           <button
             //onClick of the button return resturnat having average rating greater than 4
@@ -72,10 +85,14 @@ const Body = () => {
                 key={resList?.info?.id}
                 to={"/restaurants/" + resList?.info?.id}
               >
-                <ResturantCard
-                  key={resList?.info?.differentiatedUi?.id}
-                  resName={resList}
-                />
+                {resList?.info?.promoted ? (
+                  <ResturantCardPromoted resName={resList} />
+                ) : (
+                  <ResturantCard
+                    key={resList?.info?.differentiatedUi?.id}
+                    resName={resList}
+                  />
+                )}
               </Link>
             );
           })}
