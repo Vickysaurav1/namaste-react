@@ -52,7 +52,7 @@ const Header = () => {
             <Link to="/grocery">Grocery</Link>
           </li>
           <li className="px-4 font-bold">
-            <Link to="/cart">Cart 🛒({cartItems.length} items)</Link>
+            <Link to="/cart">Cart-({cartItems.length} items)</Link>
           </li>
           <button
             onClick={buttonClicked}

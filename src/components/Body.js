@@ -15,7 +15,6 @@ const Body = () => {
 
   const ResturantCardPromoted = withPromotedLabel(ResturantCard);
 
-  console.log("listofres>>", listOfResturnt);
 
   const { userName, setUserName } = useContext(UserContext);
 
@@ -36,6 +35,7 @@ const Body = () => {
         <div className="search p-4 m-4">
           <input
             type="text"
+            data-testid="searchInput"
             className="border border-dotted border-black p-1 m-1 rounded-lg"
             placeholder="search..."
             value={searchText}
